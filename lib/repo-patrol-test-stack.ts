@@ -1,16 +1,23 @@
-import * as cdk from 'aws-cdk-lib/core';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as cdk from "aws-cdk-lib/core";
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
+import { Construct } from "constructs";
+import { RepoPatrol } from "repo-patrol";
 
 export class RepoPatrolTestStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const githubAppSecret = secretsmanager.Secret.fromSecretNameV2(
+      this,
+      "GitHubAppSecret",
+      "repo-patrol/github-app",
+    );
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'RepoPatrolTestQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new RepoPatrol(this, "Patrol", {
+      githubAppSecret,
+      dryRun: false,
+      enableDashboard: true,
+      adminEmails: ["malaysia.cryer@gmail.com"],
+    });
   }
 }
