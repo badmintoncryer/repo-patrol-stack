@@ -36,6 +36,18 @@ export class RepoPatrolStack extends cdk.Stack {
             [JobType.REPO_HEALTH_CHECK]: { schedule: monthly },
           },
         },
+        {
+          owner: "badmintoncryer",
+          repo: "cdk-code-server",
+          jobs: {
+            [JobType.REVIEW_PULL_REQUESTS]: { schedule: monthly },
+            [JobType.TRIAGE_ISSUES]: { schedule: monthly },
+            [JobType.HANDLE_DEPENDABOT]: { schedule: monthly },
+            [JobType.ANALYZE_CI_FAILURES]: { schedule: monthly },
+            [JobType.CHECK_DEPENDENCIES]: { schedule: monthly },
+            [JobType.REPO_HEALTH_CHECK]: { schedule: monthly },
+          },
+        },
       ],
     });
   }
