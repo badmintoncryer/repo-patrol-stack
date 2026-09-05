@@ -40,14 +40,18 @@ export class RepoPatrolStack extends cdk.Stack {
     );
 
     // Monthly schedule: 1st of every month at 00:00 UTC
-    const monthly = ScheduleExpression.cron({ minute: "0", hour: "0", day: "1", month: "*", year: "*" });
+    const monthly = ScheduleExpression.cron({
+      minute: "0",
+      hour: "0",
+      day: "1",
+      month: "*",
+      year: "*",
+    });
 
     const repositories: RepositoryConfig[] = CDK_CONSTRUCT_REPOS.map((repo) => ({
       owner: "badmintoncryer",
       repo,
-      jobs: Object.fromEntries(
-        Object.keys(ALL_JOBS).map((job) => [job, { schedule: monthly }]),
-      ),
+      jobs: Object.fromEntries(Object.keys(ALL_JOBS).map((job) => [job, { schedule: monthly }])),
     }));
 
     new RepoPatrol(this, "Patrol", {
