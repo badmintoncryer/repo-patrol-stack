@@ -35,6 +35,14 @@ jobs:
       - name: Type check
         run: pnpm run typecheck
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: CDK synth validation
         run: npx cdk synth --quiet
         env:
